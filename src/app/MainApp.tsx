@@ -39,6 +39,8 @@ const MainApp: React.FC<Props> = ({ onUserLogout, onStationLogout }) => {
   const [showModal, setShowModal] = useState(false);
   const [showStationLogout, setShowStationLogout] = useState(false);
 
+  console.log("detections", detections);
+
   const webcamRef = useRef<Webcam>(null);
   const navigate = useNavigate();
 
