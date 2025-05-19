@@ -110,9 +110,11 @@ const MainApp: React.FC<Props> = ({ onUserLogout, onStationLogout }) => {
 
   if (!station) return null;
 
+  console.log("showStationLogout", showStationLogout);
+  console.log("station", station);
+  
   return (
     <div className="min-h-screen bg-green-50 flex flex-col">
-      {/* ✅ Header trạm */}
       <AppHeader
         station={station}
         onUserLogout={handleUserLogout}
@@ -120,10 +122,8 @@ const MainApp: React.FC<Props> = ({ onUserLogout, onStationLogout }) => {
       />
 
       <main className="flex flex-col items-center flex-grow px-4 py-8">
-        {/* ✅ Camera */}
         <WebcamCapture webcamRef={webcamRef} />
 
-        {/* ✅ Nút nhận diện */}
         <button
           onClick={captureAndSend}
           disabled={isLoading}
@@ -132,10 +132,8 @@ const MainApp: React.FC<Props> = ({ onUserLogout, onStationLogout }) => {
           {isLoading ? "⏳ Đang xử lý..." : "📸 Nhận diện"}
         </button>
 
-        {/* ✅ Hiển thị kết quả */}
         <ResultDisplay result={resultTypes.join(", ")} detectedImage={detectedImage} />
 
-        {/* ✅ Modal hiển thị kết quả */}
         {showModal && (
           <ResultModal
             result={resultTypes.length > 0 ? resultTypes[0] : "Unknown"}
@@ -144,7 +142,6 @@ const MainApp: React.FC<Props> = ({ onUserLogout, onStationLogout }) => {
           />
         )}
 
-        {/* ✅ Modal xác nhận đăng xuất trạm */}
         {showStationLogout && station && (
           <StationLogoutModal
             station={station}

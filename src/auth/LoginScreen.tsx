@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppHeader from "../layout/AppHeader";
+import StationLogoutModal from "./StationLogoutModal";
 
 interface Station {
   id: number;
@@ -25,6 +26,7 @@ const LoginScreen: React.FC<Props> = ({
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [showStationLogout, setShowStationLogout] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -54,12 +56,17 @@ const LoginScreen: React.FC<Props> = ({
     }
   };
 
+  const handleStationLogoutSuccess = () => {
+    onStationLogout();
+    navigate("/station");
+  };
+
+
   return (
     <div className="min-h-screen bg-green-50 flex flex-col">
-      {/* Header chung với nút đăng xuất trạm */}
       <AppHeader
         station={station}
-        onStationLogout={onStationLogout}
+        onStationLogout={() => setShowStationLogout(true)}
         showUserLogout={false}
         showStationLogout={true}
       />
@@ -100,6 +107,13 @@ const LoginScreen: React.FC<Props> = ({
             </button>
           </div>
         </div>
+        {showStationLogout && station && (
+          <StationLogoutModal
+            station={station}
+            onClose={() => setShowStationLogout(false)}
+            onSuccess={handleStationLogoutSuccess}
+          />
+        )}
       </main>
 
       <footer className="text-sm text-gray-500 text-center py-4">
