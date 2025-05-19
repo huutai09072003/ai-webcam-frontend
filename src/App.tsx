@@ -1,11 +1,7 @@
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import AuthRouter from "./app/AuthRouter";
+import AppRouter from './routes/AppRouter';
 
-const App: React.FC = () => (
-  <BrowserRouter>
-    <AuthRouter />
-  </BrowserRouter>
-);
+const App = () => {
+  return <AppRouter />;
+};
 
 export default App;
