@@ -43,10 +43,10 @@ const GameList: React.FC = () => {
             onClick={() => navigate(`/ai-demo/game/${game.id}`)}
             className="cursor-pointer bg-white shadow hover:shadow-md transition-all border rounded-lg overflow-hidden"
           >
-            {game.featured_image_url && (
+            {game.id && (
               <div className="w-full bg-gray-100 flex justify-center items-center" style={{ minHeight: '300px' }}>
                 <img
-                  src={game.featured_image_url}
+                  src={`/src/assets/game${game.id}thumnail.png`}
                   alt={game.name}
                   className="max-h-[300px] w-full object-contain"
                 />

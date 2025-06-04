@@ -87,9 +87,6 @@ const Header: React.FC = () => {
               <Link to="/ai-demo/camera" className="block px-4 py-2 hover:bg-green-50 transition-colors duration-200">
                 Camera Realtime
               </Link>
-              <Link to="/ai-demo/application" className="block px-4 py-2 hover:bg-green-50 transition-colors duration-200">
-                Ứng dụng của AI
-              </Link>
               <Link to="/ai-demo/about" className="block px-4 py-2 hover:bg-green-50 transition-colors duration-200">
                 Về AI
               </Link>
@@ -175,9 +172,6 @@ const Header: React.FC = () => {
                   </Link>
                   <Link to="/ai-demo/camera" className="block px-4 py-2 hover:bg-green-50 transition-colors duration-200">
                     Camera Realtime
-                  </Link>
-                  <Link to="/ai-demo/application" className="block px-4 py-2 hover:bg-green-50 transition-colors duration-200">
-                    Ứng dụng của AI
                   </Link>
                   <Link to="/ai-demo/about" className="block px-4 py-2 hover:bg-green-50 transition-colors duration-200">
                     Về AI

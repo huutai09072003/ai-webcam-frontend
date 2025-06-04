@@ -103,13 +103,6 @@ const Game1: React.FC = () => {
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-green-700">{game?.name}</h1>
         <p className="text-gray-700 max-w-2xl mx-auto mt-2">{game?.description}</p>
-        {game?.featured_image_url && (
-          <img
-            src={game.featured_image_url}
-            alt="featured"
-            className="mx-auto mt-4 w-full max-w-md rounded shadow-md border"
-          />
-        )}
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

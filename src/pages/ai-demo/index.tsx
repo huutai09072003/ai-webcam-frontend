@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
 import './index.scss';
+
+import { Link } from 'react-router-dom';
 
 const AIDemoIndex = () => {
   const modules = [
@@ -9,11 +10,6 @@ const AIDemoIndex = () => {
       path: 'about',
     },
     {
-      title: '🧪 Ứng dụng phân loại rác',
-      description: 'Demo nhận diện các loại rác (hữu cơ, tái chế, nguy hại...) từ hình ảnh bằng mô hình AI.',
-      path: 'application',
-    },
-    {
       title: '📷 Camera thông minh',
       description: 'Trải nghiệm trực tiếp tính năng camera giúp nhận diện vật thể rác thải trong thời gian thực.',
       path: 'camera',
@@ -21,7 +17,7 @@ const AIDemoIndex = () => {
     {
       title: '🎮 Trò chơi học rác',
       description: 'Thử thách vui nhộn giúp bạn phân biệt rác đúng cách thông qua trò chơi tương tác AI.',
-      path: 'game',
+      path: 'games',
     },
   ];
 
@@ -34,7 +30,7 @@ const AIDemoIndex = () => {
         Khám phá các ứng dụng của trí tuệ nhân tạo (AI) trong việc phân loại, theo dõi và giáo dục về rác thải – vì một hành tinh xanh hơn 🌍.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {modules.map((module) => (
           <Link
             to={module.path}
