@@ -1,0 +1,154 @@
+@use "sass:math";
+
+// Define animation keyframes
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseSlow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes clickFeedback {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes accordionOpen {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 500px; // Adjust based on content
+    opacity: 1;
+  }
+}
+
+// Apply animations using Tailwind classes
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 2s ease-in-out infinite;
+}
+
+.animate-click-feedback {
+  animation: clickFeedback 0.2s ease-in-out;
+}
+
+// Custom styles for specific elements
+.modal-content {
+  background: linear-gradient(145deg, #ffffff, #f1f5f9);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.close-button {
+  transition: all 0.3s ease;
+  &:hover {
+    transform: scale(1.1) rotate(90deg);
+    color: #4f46e5 !important; // Tailwind's indigo-600
+  }
+}
+
+.facility-item {
+  transition: all 0.3s ease;
+  &:hover {
+    transform: scale(1.01);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-color: #4f46e5 !important; // Tailwind's indigo-600
+  }
+}
+
+.facility-list {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease-out;
+  &.open {
+    animation: accordionOpen 0.4s ease-out forwards;
+    max-height: 500px; // Adjust based on content
+  }
+}
+
+.related-item {
+  transition: all 0.3s ease;
+  &:hover {
+    transform: scale(1.05);
+    border-color: #4f46e5 !important; // Tailwind's indigo-600
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  &:active {
+    @extend .animate-click-feedback;
+  }
+}
+
+// Ensure smooth scrolling for modal
+.modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #4f46e5 #e5e7eb;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #e5e7eb; // Tailwind's gray-200
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #4f46e5; // Tailwind's indigo-600
+    border-radius: 4px;
+    &:hover {
+      background: #4338ca; // Tailwind's indigo-700
+    }
+  }
+}
