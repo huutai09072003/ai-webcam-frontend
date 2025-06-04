@@ -7,6 +7,8 @@ import React, {
 
 import axios from 'axios';
 
+import { API_BASE_URL } from '../../config/api';
+
 interface Donor {
   id: number;
   full_name: string;
@@ -25,7 +27,7 @@ const Donate: React.FC = () => {
     const fetchDonors = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:3000/donations', {
+        const response = await axios.get(`${API_BASE_URL}/donations`, {
           headers: { 'Content-Type': 'application/json' },
           timeout: 10000,
         });

@@ -6,6 +6,8 @@ import {
 
 import { useNavigate } from 'react-router-dom';
 
+import { API_BASE_URL } from '../../../../config/api';
+
 interface ImageData {
   id: string;
   url: string;
@@ -26,11 +28,11 @@ const Game1: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        const res = await fetch('http://localhost:3000/games/1');
+        const res = await fetch(`${API_BASE_URL}/games/1`);
         const data = await res.json();
         setGame(data);
       } catch (err) {
@@ -53,7 +55,7 @@ const Game1: React.FC = () => {
 
     setUploading(true);
     try {
-      const res = await fetch(`http://localhost:3000/games/${game.id}/upload_image`, {
+      const res = await fetch(`${API_BASE_URL}/games/${game.id}/upload_image`, {
         method: 'POST',
         body: formData,
       });
@@ -81,10 +83,10 @@ const Game1: React.FC = () => {
 
     setUploading(true);
     try {
-      const res = await fetch(`http://localhost:3000/games/${game.id}/upload_image_from_url`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }),
+      const res = await fetch(`${API_BASE_URL}/games/${game.id}/upload_image_from_url`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url }),
       });
       const data = await res.json();
       setGame(prev => prev ? { ...prev, images: [...prev.images, data] } : prev);

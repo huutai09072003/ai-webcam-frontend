@@ -1,8 +1,13 @@
+import axios from 'axios';
 // src/hooks/useAuth.ts
-import { useSelector, useDispatch } from 'react-redux';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+
+import { API_BASE_URL } from '../config/api';
 import { RootState } from '../store';
 import { logout } from '../store/authSlice';
-import axios from 'axios';
 
 export const useAuth = () => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -10,7 +15,7 @@ export const useAuth = () => {
 
   const signOut = async () => {
     try {
-      await axios.delete('http://localhost:3000/bloggers/sign_out', {
+      await axios.delete(`${API_BASE_URL}/bloggers/sign_out`, {
         headers: {
           Authorization: localStorage.getItem('auth_token') || '',
         },

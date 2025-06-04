@@ -1,6 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
 import axios from 'axios';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import {
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
+
+import { API_BASE_URL } from '../../config/api';
 
 export interface Founder {
   id: number;
@@ -43,7 +53,7 @@ const CampaignShowPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => {    
     if (!id) {
       setError('Không tìm thấy chiến dịch.');
       setLoading(false);
@@ -51,13 +61,13 @@ const CampaignShowPage: React.FC = () => {
     }
 
     axios
-      .get<Campaign>(`http://localhost:3000/campaigns/${id}`)
+      .get<Campaign>(`${API_BASE_URL}/campaigns/${id}`)
       .then((res) => setCampaign(res.data))
       .catch(() => setError('Không thể tải chiến dịch.'))
       .finally(() => setLoading(false));
 
     axios
-      .get<Donation[]>(`http://localhost:3000/campaigns/${id}/donation`)
+      .get<Donation[]>(`${API_BASE_URL}/campaigns/${id}/donation`)
       .then((res) => setDonations(res.data))
       .catch(() => console.error('Không thể tải danh sách donation.'));
   }, [id]);
@@ -69,7 +79,7 @@ const CampaignShowPage: React.FC = () => {
     if (donationSuccess === 'success' && sessionId && id) {
       setVerifyingDonation(true);
       axios
-        .post(`http://localhost:3000/campaigns/${id}/verify_donation`, {
+        .post(`${API_BASE_URL}/campaigns/${id}/verify_donation`, {
           session_id: sessionId,
         })
         .then(() => {

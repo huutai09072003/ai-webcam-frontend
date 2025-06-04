@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import axios from 'axios';
 
+import { API_BASE_URL } from '../../config/api';
+
 const NewCampaignPage: React.FC = () => {
   const [form, setForm] = useState({
     title: '',
@@ -26,7 +28,7 @@ const NewCampaignPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
       try {
-        const response = await axios.post('http://localhost:3000/campaigns', form);
+        const response = await axios.post(`${API_BASE_URL}/campaigns`, form);
 
         if (response.data.success) {
           setSuccessMessage("✅ Chiến dịch của bạn đã được gửi...");
@@ -61,12 +63,12 @@ const NewCampaignPage: React.FC = () => {
           <button
             onClick={async () => {
               try {
-                const accRes = await axios.post('http://localhost:3000/stripe_accounts', { email: form.email });
+                const accRes = await axios.post(`${API_BASE_URL}/stripe_accounts`, { email: form.email });
                 const accountId = accRes.data.account_id;
 
-                const linkRes = await axios.post('http://localhost:3000/stripe_accounts/link', { account: accountId });
+                const linkRes = await axios.post(`${API_BASE_URL}/stripe_accounts/link`, { account: accountId });
                 window.location.href = linkRes.data.url;
-              } catch (err: unknown) {
+                } catch (err: unknown) {
                 if (axios.isAxiosError(err) && err.response?.data) {
                   setError(err.response.data.error || 'Failed to register Stripe account');
                 } else {

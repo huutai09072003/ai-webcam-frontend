@@ -15,6 +15,8 @@ import {
 } from 'react-router-dom';
 import useImage from 'use-image';
 
+import { API_BASE_URL } from '../../../../config/api';
+
 interface TrashPrediction {
   trash_type: string;
   confidence: number;
@@ -54,7 +56,7 @@ const GamePlayPage: React.FC = () => {
   useEffect(() => {
     const fetchImageAndPredict = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/images/${imageId}`);
+        const res = await fetch(`${API_BASE_URL}/images/${imageId}`);
         if (!res.ok) throw new Error('Không thể tải hình ảnh');
         const data: ImageData = await res.json();
         setImageUrl(data.url);

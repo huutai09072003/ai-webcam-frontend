@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import { API_BASE_URL } from '../../config/api';
+
 const BlogSignupPage: React.FC = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -21,13 +23,13 @@ const BlogSignupPage: React.FC = () => {
     e.preventDefault();
     setError('');
     try {
-      await axios.post('http://localhost:3000/bloggers', {
-        blogger: form
+      await axios.post(`${API_BASE_URL}/bloggers`, {
+      blogger: form
       }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
       });
 
       // ✅ Sau khi đăng ký thành công, chuyển sang trang đăng nhập

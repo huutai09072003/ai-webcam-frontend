@@ -1,5 +1,11 @@
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
+
 import { useNavigate } from 'react-router-dom';
+
+import { API_BASE_URL } from '../../../config/api';
 
 interface GameData {
   id: number;
@@ -14,7 +20,7 @@ const GameList: React.FC = () => {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const res = await fetch('http://localhost:3000/games');
+        const res = await fetch(`${API_BASE_URL}/games`);
         const data = await res.json();
         setGames(data);
       } catch (err) {

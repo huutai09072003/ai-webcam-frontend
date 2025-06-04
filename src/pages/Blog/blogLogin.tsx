@@ -8,6 +8,7 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
+import { API_BASE_URL } from '../../config/api';
 import { setUser } from '../../store/authSlice';
 
 const BlogLoginPage: React.FC = () => {
@@ -26,9 +27,9 @@ const BlogLoginPage: React.FC = () => {
     e.preventDefault();
     setError('');
     try {
-      const res = await axios.post('http://localhost:3000/bloggers/sign_in', {
-        blogger :{
-           email: form.email,
+      const res = await axios.post(`${API_BASE_URL}/bloggers/sign_in`, {
+        blogger: {
+          email: form.email,
           password: form.password,
         }
       });

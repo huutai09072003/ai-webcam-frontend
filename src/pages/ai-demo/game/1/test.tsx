@@ -1,7 +1,20 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { Stage, Layer, Image as KonvaImage } from 'react-konva';
+import {
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  Image as KonvaImage,
+  Layer,
+  Stage,
+} from 'react-konva';
+import {
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import useImage from 'use-image';
-import { useEffect, useState } from 'react';
+
+import { API_BASE_URL } from '../../../../config/api';
 
 interface ImageData {
   id: string;
@@ -19,7 +32,7 @@ const ImageCanvasViewer: React.FC = () => {
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/images/${imageId}`);
+        const res = await fetch(`${API_BASE_URL}/images/${imageId}`);
         const data: ImageData = await res.json();
         setImageUrl(data.url);
       } catch (err) {
