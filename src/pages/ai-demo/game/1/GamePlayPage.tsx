@@ -1,8 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Stage, Layer, Image as KonvaImage } from 'react-konva';
-import useImage from 'use-image';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
 import { KonvaEventObject } from 'konva/lib/Node';
+import {
+  Image as KonvaImage,
+  Layer,
+  Stage,
+} from 'react-konva';
+import {
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
+import useImage from 'use-image';
 
 interface TrashPrediction {
   trash_type: string;
@@ -28,7 +39,7 @@ const GamePlayPage: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [stageSize, setStageSize] = useState({ width: 800, height: 600 });
   const [imageWithBoxes, setImageWithBoxes] = useState<string | null>(null);
-  const [aiPredictions, setAiPredictions] = useState<TrashPrediction[]>([]);
+  // const [aiPredictions, setAiPredictions] = useState<TrashPrediction[]>([]);
   const [selections, setSelections] = useState<UserSelection[]>([]);
   const [result, setResult] = useState<{ correct: number; incorrect: number } | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -59,9 +70,9 @@ const GamePlayPage: React.FC = () => {
             body: JSON.stringify({ data: base64data, selections: [], question_type: '' }),
           });
           const detectData = await detectRes.json();
-          setAiPredictions(detectData.predictions);
-          const uniqueTypes = [...new Set(detectData.predictions.map((p: any) => p.trash_type))];
-          const randomType = uniqueTypes[Math.floor(Math.random() * uniqueTypes.length)];
+          // setAiPredictions(detectData.predictions);
+          const uniqueTypes = [...new Set(detectData.predictions.map((p: TrashPrediction) => p.trash_type))];
+          const randomType = uniqueTypes[Math.floor(Math.random() * uniqueTypes.length)] as string;
           setQuestionType(randomType);
         };
         reader.readAsDataURL(blob);
