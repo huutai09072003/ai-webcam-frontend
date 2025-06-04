@@ -1,0 +1,194 @@
+/* src/components/Global.scss */
+.global-container {
+  .chart-section {
+    .description-only {
+      transition: all 0.3s ease;
+      border: 1px dashed rgba(168, 85, 247, 0.3);
+
+      &:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      position: relative;
+      z-index: 2;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #e6efff, #f3e6ff);
+        opacity: 0.1;
+        border-radius: 16px;
+        z-index: -1;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 50px;
+        height: 4px;
+        background: linear-gradient(45deg, #e6efff, #f3e6ff);
+        border-radius: 4px;
+      }
+    }
+
+    .content {
+      &.description-left {
+        .analysis {
+          grid-column: 1 / 2; // 1/3 (trái)
+          grid-row: 1;
+          position: relative;
+          z-index: 2;
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #e6efff, #f3e6ff);
+            opacity: 0.1;
+            border-radius: 16px;
+            z-index: -1;
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(45deg, #e6efff, #f3e6ff);
+            border-radius: 4px;
+          }
+        }
+        .iframe-container {
+          grid-column: 2 / 4; // 2/3 (phải)
+          grid-row: 1;
+
+          &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #a855f7, #ec4899);
+            border-radius: 8px 0 0 8px;
+          }
+        }
+      }
+
+      &.description-right {
+        .analysis {
+          grid-column: 3 / 4; // 1/3 (phải)
+          grid-row: 1;
+          position: relative;
+          z-index: 2;
+
+          &::before {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: -8px;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ec4899, #3b82f6);
+            opacity: 0.1;
+            border-radius: 16px;
+            z-index: -1;
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(to left, #3b82f6, #a855f7);
+            border-radius: 4px;
+          }
+        }
+        .iframe-container {
+          grid-column: 1 / 3; // 2/3 (trái)
+          grid-row: 1;
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to top, #3b82f6, #ec4899);
+            border-radius: 0 8px 8px 0;
+          }
+        }
+      }
+
+      .analysis {
+        transition: all 0.3s ease;
+        border: 1px dashed rgba(168, 85, 247, 0.3);
+
+        &:hover {
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      .iframe-container {
+        position: relative;
+        transition: all 0.3s ease;
+
+        &:hover {
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .chart-section {
+      .content {
+        &.description-left,
+        &.description-right {
+          .analysis {
+            grid-column: 1 / 4;
+            grid-row: 1;
+
+            &::before {
+              top: -4px;
+              left: -4px;
+              border-radius: 12px;
+            }
+
+            &::after {
+              width: 30px;
+            }
+          }
+          .iframe-container {
+            grid-column: 1 / 4;
+            grid-row: 2;
+
+            &::after {
+              width: 100%;
+              height: 4px;
+              bottom: 0;
+              left: 0;
+              border-radius: 0 0 8px 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
