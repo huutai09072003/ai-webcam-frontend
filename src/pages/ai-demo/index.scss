@@ -1,0 +1,11 @@
+.ai-demo-index {
+  .section-card {
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #f0fdf4; // Tailwind emerald-50
+      border-color: #34d399;    // Tailwind green-400
+      transform: translateY(-3px);
+    }
+  }
+}

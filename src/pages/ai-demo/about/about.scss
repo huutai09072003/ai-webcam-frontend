@@ -1,0 +1,81 @@
+.about-ai-container {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  h1, h2 {
+    transition: color 0.3s ease;
+  }
+
+  h1:hover, h2:hover {
+    color: #2f855a; /* Darker green on hover */
+  }
+
+  .list-none li {
+    transition: transform 0.2s ease;
+  }
+
+  .list-none li:hover {
+    transform: translateX(5px);
+  }
+
+  img {
+    object-fit: cover;
+    max-height: 300px;
+  }
+
+  .group:hover img {
+    filter: brightness(80%);
+  }
+
+  .grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  @media (max-width: 768px) {
+    img {
+      max-height: 200px;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
