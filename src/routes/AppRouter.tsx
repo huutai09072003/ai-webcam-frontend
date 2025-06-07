@@ -24,6 +24,7 @@ import BlogSignupPage from '../pages/Blog/blogRegister.tsx';
 import BlogIndexPage from '../pages/Blog/index.tsx';
 import BlogNewPage from '../pages/Blog/new.tsx';
 import BlogShowPage from '../pages/Blog/show.tsx';
+import CampaignDonorsPage from '../pages/Campaign/campaignAllDonors.tsx';
 import CampaignNewDonation from '../pages/Campaign/CampaignDonation.tsx';
 import Campaigns from '../pages/Campaign/index.tsx';
 import NewCampaignPage from '../pages/Campaign/new.tsx';
@@ -73,6 +74,7 @@ const AppRouter = () => {
             <Route path="new" element={<NewCampaignPage />} />
             <Route path=":id" element={<CampaignShowPage />} />
             <Route path=":id/donate" element={<CampaignNewDonation />} />
+            <Route path=":id/donors" element={<CampaignDonorsPage />} />
           </Route>
 
           <Route path="/blogs" element={<BlogLayout />}>
@@ -85,6 +87,7 @@ const AppRouter = () => {
           <Route path="/bloggers" element={<BloggerIndex />} />
           <Route path="/bloggers/:id" element={<BloggerShow />} />
           <Route path="/bloggers/:id/edit" element={<BloggerEdit />} />
+
           <Route path="/ai-demo" element={<AIDemoIndex />} />
           <Route path="/ai-demo/games" element={<GameList />} />
           <Route path="/ai-demo/game/1" element={<Game1 />} />

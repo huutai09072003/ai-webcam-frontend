@@ -97,17 +97,15 @@ const CampaignShowPage: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto grid grid-cols-7 min-h-screen py-10 px-4 text-gray-800 bg-white">
-      {/* Sidebar left - Founder info */}
       <div className="col-span-1 pr-4 text-sm">
         <h2 className="font-semibold text-green-700 mb-2">Người tổ chức</h2>
         <p><strong>👤</strong> {campaign.founder.name}</p>
-        <p><strong>📧</strong> {campaign.founder.email}</p>
+        <p>{campaign.founder.email}</p>
         {campaign.founder.wallet_address && (
           <p><strong>💼</strong> {campaign.founder.wallet_address}</p>
         )}
       </div>
 
-      {/* Main content */}
       <div className="col-span-5 border-l border-r border-gray-200 px-6">
         {thankYouMessage && (
           <div className="bg-green-50 border border-green-300 text-green-700 text-center font-medium p-4 rounded mb-6">
@@ -146,7 +144,7 @@ const CampaignShowPage: React.FC = () => {
           <>
             <h4 className="font-semibold mb-2 text-green-700">Top nhà tài trợ</h4>
             <ul className="space-y-2">
-              {donations.map((d) => (
+              {donations.slice(0, 3).map((d) => (
                 <li key={d.id} className="border-b pb-2 border-gray-100">
                   <strong>{d.full_name || 'Ẩn danh'}</strong><br />
                   💵 {d.amount} {d.currency.toUpperCase()}<br />
@@ -156,6 +154,14 @@ const CampaignShowPage: React.FC = () => {
                 </li>
               ))}
             </ul>
+            {donations.length > 3 && (
+              <button
+                onClick={() => navigate(`/campaigns/${campaign.id}/donors`)}
+                className="mt-3 w-full bg-gray-100 text-green-700 py-2 rounded hover:bg-green-50 font-medium text-sm"
+              >
+                Xem tất cả nhà tài trợ
+              </button>
+            )}
           </>
         )}
       </div>

@@ -176,14 +176,27 @@ const GamePlayPage: React.FC = () => {
           </div>
         </div>
       ) : hasSubmitted && result ? (
-        <div className="mt-6 bg-white p-4 rounded shadow max-w-lg mx-auto">
-          <h2 className="text-xl font-semibold text-green-700">📊 Kết quả</h2>
-          <p>✅ Đúng: {result.correct}</p>
-          <p>❌ Sai: {result.incorrect}</p>
-          {imageWithBoxes && (
-            <img src={imageWithBoxes} alt="Kết quả" className="mt-4 rounded border" />
+        <div className="mt-6 bg-white p-6 rounded shadow max-w-lg mx-auto text-center">
+          <h2 className="text-2xl font-semibold text-green-700 mb-2">🎉 Kết quả của bạn</h2>
+          {result.correct > 0 ? (
+            <>
+              <p className="text-2xl text-green-700 font-bold mb-2">🎯 Bạn đã chọn ĐÚNG!</p>
+              <p className="mb-2">
+                Chúc mừng bạn đã xác định đúng vị trí loại rác <span className="font-semibold text-green-700">{questionType}</span>!
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-2xl text-red-600 font-bold mb-2">❌ Bạn đã chọn SAI!</p>
+              <p className="mb-2">
+                Bạn đã chọn chưa đúng vị trí loại rác <span className="font-semibold text-green-700">{questionType}</span>. Hãy thử lại ở vòng tiếp theo!
+              </p>
+            </>
           )}
-          <div className="mt-4">
+          {imageWithBoxes && (
+            <img src={imageWithBoxes} alt="Kết quả" className="mt-4 rounded border mx-auto max-h-72" />
+          )}
+          <div className="mt-6">
             <button
               onClick={() => alert("🚩 Cảm ơn bạn! Chúng tôi đã ghi nhận phản hồi.")}
               className="text-sm text-red-500 underline hover:text-red-700"
@@ -196,7 +209,9 @@ const GamePlayPage: React.FC = () => {
         <>
           <div className="mb-6 text-center">
             <p className="text-lg font-semibold text-gray-700">⏰ Thời gian còn lại: {timeLeft}s</p>
-            <p className="text-xl font-bold text-green-700 mt-2">🎯 Hãy chọn vị trí loại rác: <span className="text-red-600">{questionType}</span></p>
+            <p className="text-xl font-bold text-green-700 mt-2">
+              🎯 Hãy chọn vị trí loại rác: <span className="text-red-600">{questionType}</span>
+            </p>
           </div>
 
           <div className="flex justify-center mb-6">
