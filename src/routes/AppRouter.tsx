@@ -12,6 +12,8 @@ import CameraStream from '../pages/ai-demo/camera/index.tsx';
 import GamePlayPage from '../pages/ai-demo/game/1/GamePlayPage.tsx';
 import Game1 from '../pages/ai-demo/game/1/index.tsx';
 import ImageCanvasViewer from '../pages/ai-demo/game/1/test.tsx';
+import CoreGame from '../pages/ai-demo/game/2/coreGame.tsx';
+import Game2 from '../pages/ai-demo/game/2/index.tsx';
 import GameList from '../pages/ai-demo/game/index.tsx';
 import AIDemoIndex from '../pages/ai-demo/index.tsx';
 import BloggerEdit from '../pages/Blog/Bloggers/edit.tsx';
@@ -90,6 +92,8 @@ const AppRouter = () => {
           <Route path="/ai-demo/camera" element={<CameraStream />} />
           <Route path="/test/:imageId" element={<ImageCanvasViewer />} />
           <Route path="/ai-demo/about" element={<About />} />
+          <Route path="/ai-demo/game/2" element={<Game2 />} />
+          <Route path="/ai-demo/game/2/coregame/:level" element={<CoreGame />} />
           {/* Tech */}
           {/* <Route path="tech" element={<TechIndex />} />
           <Route path="tech/ai-model" element={<AIModel />} />
