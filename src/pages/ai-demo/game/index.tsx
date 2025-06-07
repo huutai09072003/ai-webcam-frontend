@@ -5,12 +5,19 @@ import {
 
 import { useNavigate } from 'react-router-dom';
 
+import thumb1 from '../../../assets/gameindex/game1thumnail.png';
+import thumb2 from '../../../assets/gameindex/game2thumnail.png';
 import { API_BASE_URL } from '../../../config/api';
+
+const gameThumbnails: { [key: number]: string } = {
+  1: thumb1,
+  2: thumb2,
+};
 
 interface GameData {
   id: number;
   name: string;
-  featured_image_url: string;
+  featured_image_url?: string; // có thể có hoặc không
 }
 
 const GameList: React.FC = () => {
@@ -35,7 +42,6 @@ const GameList: React.FC = () => {
       <h1 className="text-4xl font-bold mb-10 text-center text-green-700">
         🌿 Danh Sách Trò Chơi
       </h1>
-
       <div className="flex flex-col gap-8 max-w-3xl mx-auto">
         {games.map((game) => (
           <div
@@ -43,15 +49,13 @@ const GameList: React.FC = () => {
             onClick={() => navigate(`/ai-demo/game/${game.id}`)}
             className="cursor-pointer bg-white shadow hover:shadow-md transition-all border rounded-lg overflow-hidden"
           >
-            {game.id && (
-              <div className="w-full bg-gray-100 flex justify-center items-center" style={{ minHeight: '300px' }}>
-                <img
-                  src={`/src/assets/gameindex/game${game.id}thumnail.png`}
-                  alt={game.name}
-                  className="max-h-[300px] w-full object-contain"
-                />
-              </div>
-            )}
+            <div className="w-full bg-gray-100 flex justify-center items-center" style={{ minHeight: '300px' }}>
+              <img
+                src={gameThumbnails[game.id]}
+                alt={game.name}
+                className="max-h-[300px] w-full object-contain"
+              />
+            </div>
             <div className="p-4 text-center">
               <h2 className="text-2xl font-semibold text-green-700">{game.name}</h2>
             </div>
