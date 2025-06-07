@@ -50,12 +50,6 @@ const Campaigns: React.FC = () => {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-green-700">Chiến dịch cộng đồng</h1>
-        <Link
-          to="/campaigns/new"
-          className="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition-all"
-        >
-          ➕ Đăng chiến dịch
-        </Link>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {campaigns.map((c) => (

@@ -46,7 +46,7 @@ const GameList: React.FC = () => {
             {game.id && (
               <div className="w-full bg-gray-100 flex justify-center items-center" style={{ minHeight: '300px' }}>
                 <img
-                  src={`/src/assets/game${game.id}thumnail.png`}
+                  src={`/src/assets/gameindex/game${game.id}thumnail.png`}
                   alt={game.name}
                   className="max-h-[300px] w-full object-contain"
                 />

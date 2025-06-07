@@ -16,7 +16,7 @@ const CameraStream: React.FC = () => {
 
   const stopCamera = () => {
     if (imgRef.current) {
-      imgRef.current.src = ""; // Xóa src để ngắt stream
+      imgRef.current.src = "";
       setIsCameraOn(false);
     }
   };
@@ -53,11 +53,13 @@ const CameraStream: React.FC = () => {
           }`}
         />
         {!isCameraOn && (
-          <img
-        src="https://via.placeholder.com/640x480?text=Camera+Off"
-        alt="Camera Off"
-        className="rounded shadow max-w-full border border-green-300"
-          />
+          <div className="w-[640px] h-[480px] flex items-center justify-center bg-gray-100 rounded border border-green-300">
+            <img
+              src="https://static.vecteezy.com/system/resources/previews/007/225/019/non_2x/camera-off-icon-ui-interface-vector.jpg"
+              alt="Camera Off"
+              className="w-32 h-32 opacity-50"
+            />
+          </div>
         )}
       </div>
       <p className="text-sm text-gray-500 mt-4">
