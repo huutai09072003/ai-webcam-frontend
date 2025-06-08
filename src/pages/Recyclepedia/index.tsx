@@ -1,7 +1,13 @@
 // src/pages/Recyclopedia.tsx
 import './index.scss';
-import { useEffect, useState } from 'react';
+
+import {
+  useEffect,
+  useState,
+} from 'react';
+
 import { API_BASE_URL } from '../../config/api';
+import AboutTestSection from '../ai-demo/about/testSection';
 import CardItemModal from './CardItemModal';
 
 interface Section {
@@ -90,6 +96,7 @@ const Recyclopedia = () => {
   useEffect(() => {
     setPage(1);
     fetchItems(1, true);
+    // eslint-disable-next-line
   }, [selectedSectionId, searchQuery, sortOption]);
 
   const handleLoadMore = () => {
@@ -100,51 +107,61 @@ const Recyclopedia = () => {
 
   return (
     <div className="p-4 md:p-8 bg-gradient-to-br from-white to-emerald-50 min-h-screen recyclopedia">
-      <h1 className="text-3xl font-extrabold mb-8 text-center text-emerald-700">
-        ♻️ Recyclopedia
-      </h1>
-
-      {/* Section filter */}
-      <div className="flex flex-wrap gap-3 mb-6 justify-center">
-        <button
-          onClick={() => setSelectedSectionId('all')}
-          className={`section-button px-4 py-2 rounded-full border ${
-            selectedSectionId === 'all' ? 'active' : ''
-          }`}
-        >
-          🌿 Tất cả
-        </button>
-        {sections.map((s) => (
-          <button
-            key={s.id}
-            onClick={() => setSelectedSectionId(s.id)}
-            className={`section-button px-4 py-2 rounded-full border ${
-              selectedSectionId === s.id ? 'active' : ''
-            }`}
-          >
-            {s.name}
-          </button>
-        ))}
-      </div>
-
-      {/* Search + Sort */}
-      <div className="filter-toolbar">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="🔍 Tìm kiếm theo tên sản phẩm..."
-        />
-        <select
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-        >
-          <option value="">Sắp xếp</option>
-          <option value="name asc">Tên A → Z</option>
-          <option value="name desc">Tên Z → A</option>
-          <option value="created_at desc">Mới nhất</option>
-          <option value="created_at asc">Cũ nhất</option>
-        </select>
+      {/* Header: flex container */}
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
+        {/* Left: Title & Filters */}
+        <div className="flex-1 min-w-0">
+          <h1 className="text-3xl font-extrabold mb-6 text-emerald-700 text-center md:text-left">
+            ♻️ Recyclopedia
+          </h1>
+          {/* Section filter */}
+          <div className="flex flex-wrap gap-3 mb-6 justify-center md:justify-start">
+            <button
+              onClick={() => setSelectedSectionId('all')}
+              className={`section-button px-4 py-2 rounded-full border ${
+                selectedSectionId === 'all' ? 'active' : ''
+              }`}
+            >
+              🌿 Tất cả
+            </button>
+            {sections.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => setSelectedSectionId(s.id)}
+                className={`section-button px-4 py-2 rounded-full border ${
+                  selectedSectionId === s.id ? 'active' : ''
+                }`}
+              >
+                {s.name}
+              </button>
+            ))}
+          </div>
+          {/* Search + Sort */}
+          <div className="filter-toolbar flex gap-4 mb-4">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="🔍 Tìm kiếm theo tên sản phẩm..."
+              className="flex-[2_1_0%] basis-2/3 px-4 py-2 rounded border-2 border-emerald-100 focus:border-emerald-400 transition"
+            />
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="flex-[1_1_0%] basis-1/3 px-4 py-2 rounded border-2 border-emerald-100 font-medium bg-white"
+            >
+              <option value="">Sắp xếp</option>
+              <option value="name asc">Tên A → Z</option>
+              <option value="name desc">Tên Z → A</option>
+              <option value="created_at desc">Mới nhất</option>
+              <option value="created_at asc">Cũ nhất</option>
+            </select>
+          </div>
+        </div>
+        {/* Right: AboutTestSection */}
+        <div className="md:w-[370px] md:min-w-[320px] w-full">
+          <AboutTestSection />
+        </div>
       </div>
 
       {/* Grid items */}
