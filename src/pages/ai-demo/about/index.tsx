@@ -63,7 +63,9 @@ const About: React.FC = () => {
           </li>
           <li className="flex items-start">
             <FaCamera className="text-green-600 mr-2 mt-1" />
-            Hiển thị <strong>bounding box</strong> với nhãn loại rác và độ chính xác.
+            <>
+              Hiển thị bounding box với nhãn loại rác và độ chính xác.
+            </>
           </li>
           <li className="flex items-start">
             <FaCamera className="text-green-600 mr-2 mt-1" />
