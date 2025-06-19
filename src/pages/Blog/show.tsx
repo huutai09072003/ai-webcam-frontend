@@ -41,7 +41,8 @@ type Blog = {
   likes_count: number;
   blogger: Blogger;
   blog_likes: BlogLike[];
-  thumb_nail_url?: string;
+  thumbnail_url?: string;
+  thumbnail_url?: string;
   published_at: string;
 };
 
@@ -231,9 +232,9 @@ const BlogShowPage: React.FC = () => {
   return (
     <div className="blog-show-page">
       <article className="article-card">
-        {blog.thumb_nail_url && (
+        {blog.thumbnail_url&& (
           <img
-            src={blog.thumb_nail_url}
+            src={blog.thumbnail_url}
             alt={blog.title}
             className="blog-cover"
             onError={(e) => (e.currentTarget.style.display = 'none')}

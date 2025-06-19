@@ -19,7 +19,8 @@ type Blog = {
   view_count: number;
   likes_count: number;
   blogger: Blogger;
-  thumb_nail_url?: string;
+  thumbnail_url?: string;
+  thumbnail_url: string;
   published_at: string;
 };
 
@@ -99,10 +100,10 @@ const BlogIndexPage: React.FC = () => {
               <div className="blog-card__image-wrapper">
                 <Link to={`/blogs/${blog.id}`}>
                   <img
-                    src={blog.thumb_nail_url || '/default-thumbnail.jpg'}
+                    src={blog.thumbnail_url || blog.thumbnail_url || 'https://scdi.org.vn/upload/images/6.%20Tin%20t%E1%BB%A9c/Tin%20t%E1%BB%A9c%20CHUNG/Ho%E1%BA%A1t%20%C4%91%E1%BB%99ng%20c%E1%BB%A7a%20SCDI/b%E1%BA%A3n%20tin%20m%C3%B4i%20tr%C6%B0%E1%BB%9Dng/B%E1%BA%A3n%20tin%20m%C3%B4i%20tr%C6%B0%E1%BB%9Dng%20Thumbnail.png'}
                     alt={blog.title}
                     className="blog-card__image"
-                    onError={(e) => (e.currentTarget.src = '/default-thumbnail.jpg')}
+                    onError={(e) => (e.currentTarget.src = 'https://scdi.org.vn/upload/images/6.%20Tin%20t%E1%BB%A9c/Tin%20t%E1%BB%A9c%20CHUNG/Ho%E1%BA%A1t%20%C4%91%E1%BB%99ng%20c%E1%BB%A7a%20SCDI/b%E1%BA%A3n%20tin%20m%C3%B4i%20tr%C6%B0%E1%BB%9Dng/B%E1%BA%A3n%20tin%20m%C3%B4i%20tr%C6%B0%E1%BB%9Dng%20Thumbnail.png')}
                   />
                 </Link>
               </div>

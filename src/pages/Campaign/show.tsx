@@ -24,7 +24,7 @@ export interface Campaign {
   id: number;
   title: string;
   description: string;
-  thumb_nail_url: string;
+  thumbnail_url: string;
   goal: string;
   location: string;
   status: string;
@@ -113,9 +113,9 @@ const CampaignShowPage: React.FC = () => {
           </div>
         )}
         <h1 className="text-2xl font-bold text-green-800 mb-4">{campaign.title}</h1>
-        {campaign.thumb_nail_url && (
+        {campaign.thumbnail_url && (
           <img
-            src={campaign.thumb_nail_url}
+            src={campaign.thumbnail_url}
             alt={campaign.title}
             className="w-full max-h-[400px] object-cover mb-6 rounded"
           />

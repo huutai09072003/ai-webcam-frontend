@@ -29,7 +29,7 @@ interface Blogger {
 interface Blog {
   id: number;
   title: string;
-  thumb_nail_url?: string;
+  thumbnail_url?: string;
   blogger: Blogger;
 }
 
@@ -37,7 +37,7 @@ interface Campaign {
   id: number;
   title: string;
   location: string;
-  thumb_nail_url?: string;
+  thumbnail_url?: string;
   description: string;
   goal: string;
 }
@@ -165,9 +165,9 @@ const Home: React.FC = () => {
                   transition={{ duration: 0.6, delay: index * 0.1, type: 'spring', stiffness: 100 }}
                   whileHover={{ scale: 1.05 }}
                 >
-                  {blog.thumb_nail_url && (
+                  {blog.thumbnail_url && (
                     <img
-                      src={blog.thumb_nail_url}
+                      src={blog.thumbnail_url}
                       alt={blog.title}
                       className="w-full h-36 object-cover"
                     />
@@ -207,9 +207,9 @@ const Home: React.FC = () => {
                   transition={{ duration: 0.6, delay: index * 0.1, type: 'spring', stiffness: 100 }}
                   whileHover={{ scale: 1.05 }}
                 >
-                  {c.thumb_nail_url && (
+                  {c.thumbnail_url && (
                     <img
-                      src={c.thumb_nail_url}
+                      src={c.thumbnail_url}
                       alt={c.title}
                       className="w-full h-36 object-cover"
                     />
@@ -281,7 +281,7 @@ const Home: React.FC = () => {
                 </motion.li>
               ))}
             </ul>
-            <Link to="/donate" className="btn btn-outline btn-sm mt-6 block text-center flex items-center gap-2 justify-center">
+            <Link to="/donate/new" className="btn btn-outline btn-sm mt-6 block text-center flex items-center gap-2 justify-center">
               <FaHandHoldingHeart /> Góp sức cùng cộng đồng
             </Link>
           </div>

@@ -7,7 +7,6 @@ import {
 } from 'react';
 
 import { API_BASE_URL } from '../../config/api';
-import AboutTestSection from '../ai-demo/about/testSection';
 import CardItemModal from './CardItemModal';
 
 interface Section {
@@ -158,13 +157,8 @@ const Recyclopedia = () => {
             </select>
           </div>
         </div>
-        {/* Right: AboutTestSection */}
-        <div className="md:w-[370px] md:min-w-[320px] w-full">
-          <AboutTestSection />
-        </div>
       </div>
 
-      {/* Grid items */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
         {items.map((item) => (
           <div

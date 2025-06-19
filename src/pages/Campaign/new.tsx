@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-
 import axios from 'axios';
-
 import { API_BASE_URL } from '../../config/api';
 
 const NewCampaignPage: React.FC = () => {
@@ -10,46 +8,66 @@ const NewCampaignPage: React.FC = () => {
     description: '',
     goal: '',
     location: '',
-    thumb_nail_url: '',
     email: '',
     is_get_donated: false,
+    thumbnail: null as File | null,
   });
 
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [stripePrompt, setStripePrompt] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
     setError('');
     setSuccessMessage('');
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setForm(prev => ({ ...prev, thumbnail: file }));
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-      try {
-        const response = await axios.post(`${API_BASE_URL}/campaigns`, form);
+    try {
+      const formData = new FormData();
+      formData.append('email', form.email);
+      formData.append('campaign[title]', form.title);
+      formData.append('campaign[description]', form.description);
+      formData.append('campaign[goal]', form.goal);
+      formData.append('campaign[location]', form.location);
+      formData.append('is_get_donated', String(form.is_get_donated));
 
-        if (response.data.success) {
-          setSuccessMessage("✅ Chiến dịch của bạn đã được gửi...");
-          setForm({ email: '', title: '', description: '', goal: '', location: '', thumb_nail_url: '', is_get_donated: false });
-          setStripePrompt(false);
-        }
-      } catch (err: unknown) {
-        if (axios.isAxiosError(err) && err.response?.data?.errors) {
-          const errorMsgs = err.response.data.errors;
-          setError(errorMsgs.join(', '));
-
-          if (errorMsgs.includes("Bạn cần đăng ký tài khoản Stripe để có thể nhận donate từ cộng đồng.")) {
-            setStripePrompt(true);
-          } else {
-            setStripePrompt(false);
-          }
-        } else {
-          setError('Có lỗi xảy ra. Vui lòng thử lại sau.');
-          setStripePrompt(false);
-        }
+      if (form.thumbnail) {
+        formData.append('campaign[thumbnail]', form.thumbnail);
       }
+
+      const response = await axios.post(`${API_BASE_URL}/campaigns`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+
+      if (response.data.success) {
+        setSuccessMessage("✅ Chiến dịch của bạn đã được gửi...");
+        setForm({ title: '', description: '', goal: '', location: '', email: '', is_get_donated: false, thumbnail: null });
+        setImagePreview(null);
+        setStripePrompt(false);
+      }
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err) && err.response?.data?.errors) {
+        const errorMsgs = err.response.data.errors;
+        setError(errorMsgs.join(', '));
+        setStripePrompt(errorMsgs.includes("Bạn cần đăng ký tài khoản Stripe để có thể nhận donate từ cộng đồng."));
+      } else {
+        setError('Có lỗi xảy ra. Vui lòng thử lại sau.');
+        setStripePrompt(false);
+      }
+    }
   };
 
   return (
@@ -58,22 +76,20 @@ const NewCampaignPage: React.FC = () => {
 
       {error && <div className="text-red-600 mb-4 font-medium">{error}</div>}
       {successMessage && <div className="text-green-600 mb-4 font-medium">{successMessage}</div>}
+
       {stripePrompt && (
         <div className="my-4">
           <button
             onClick={async () => {
               try {
                 const accRes = await axios.post(`${API_BASE_URL}/stripe_accounts`, { email: form.email });
-                const accountId = accRes.data.account_id;
-
-                const linkRes = await axios.post(`${API_BASE_URL}/stripe_accounts/link`, { account: accountId });
+                const linkRes = await axios.post(`${API_BASE_URL}/stripe_accounts/link`, { account: accRes.data.account_id });
                 window.location.href = linkRes.data.url;
-                } catch (err: unknown) {
+              } catch (err: unknown) {
                 if (axios.isAxiosError(err) && err.response?.data) {
                   setError(err.response.data.error || 'Failed to register Stripe account');
                 } else {
                   setError('An unexpected error occurred');
-                  console.error(err);
                 }
               }
             }}
@@ -84,11 +100,11 @@ const NewCampaignPage: React.FC = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
         <input
           name="email"
-          placeholder="Email của bạn"
           type="email"
+          placeholder="Email của bạn"
           value={form.email}
           onChange={handleChange}
           required
@@ -127,15 +143,34 @@ const NewCampaignPage: React.FC = () => {
           required
           className="w-full border border-gray-300 rounded-lg px-4 py-2"
         />
-        <input
-          name="thumb_nail_url"
-          placeholder="URL hình đại diện"
-          value={form.thumb_nail_url}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2"
-        />
+
+        <label className="block">
+          <span className="block mb-1 font-medium">Ảnh đại diện chiến dịch</span>
+          <div className="relative cursor-pointer bg-white border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-50">
+            <span className="text-gray-700">📁 Chọn ảnh từ thiết bị</span>
+            <input
+              type="file"
+              name="thumbnail"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+            />
+          </div>
+        </label>
+
+        {imagePreview && (
+          <div className="mt-2">
+            <span className="block text-sm text-gray-600 mb-1">Xem trước:</span>
+            <img
+              src={imagePreview}
+              alt="Thumbnail Preview"
+              className="rounded border shadow max-h-64 object-contain"
+            />
+          </div>
+        )}
+
         <label className="flex items-center space-x-2">
-        <input
+          <input
             type="checkbox"
             name="is_get_donated"
             checked={form.is_get_donated}
@@ -143,6 +178,7 @@ const NewCampaignPage: React.FC = () => {
           />
           <span>Cho phép nhận donate từ cộng đồng</span>
         </label>
+
         <button
           type="submit"
           className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700"

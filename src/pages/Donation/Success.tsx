@@ -78,7 +78,7 @@ const Success: React.FC = () => {
                 <div>
                   <p className="text-sm text-gray-600">Số tiền:</p>
                   <p className="font-medium">
-                    {paymentDetails.amount.toFixed(2)} {paymentDetails.currency.toUpperCase()}
+                    {paymentDetails.amount?.toFixed(2)} {paymentDetails.currency?.toUpperCase()}
                   </p>
                 </div>
                 <div>

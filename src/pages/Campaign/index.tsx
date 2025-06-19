@@ -15,7 +15,7 @@ type Campaign = {
   location: string;
   goal: string;
   status: string;
-  thumb_nail_url: string;
+  thumbnail_url: string;
   created_at: string;
 };
 
@@ -55,9 +55,9 @@ const Campaigns: React.FC = () => {
             to={`/campaigns/${c.id}`}
             className="bg-white rounded-2xl shadow hover:shadow-lg transition-all overflow-hidden block"
           >
-            {c.thumb_nail_url && (
+            {c.thumbnail_url && (
               <img
-                src={c.thumb_nail_url}
+                src={c.thumbnail_url}
                 alt={c.title}
                 className="w-full object-contain rounded-t-2xl"
               />

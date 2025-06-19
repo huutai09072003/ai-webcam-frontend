@@ -187,7 +187,7 @@ const Header: React.FC = () => {
               <FaUserPlus /> Đăng ký thành viên
             </Link>
             <Link
-              to="/donate"
+              to="/donate/new"
               className="text-sm text-white bg-red-500 px-4 py-2 rounded-full hover:bg-red-600 flex items-center gap-2"
             >
               <FaHeart /> Ủng hộ
