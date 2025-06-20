@@ -1,44 +1,75 @@
-import React, { useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 const CameraStream: React.FC = () => {
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const socketRef = useRef<WebSocket | null>(null);
   const [isCameraOn, setIsCameraOn] = useState(false);
+  const [detectionResults, setDetectionResults] = useState<any[]>([]);
 
   const startCamera = () => {
+    const ws = new WebSocket('ws://localhost:8000/ws');
+    ws.onopen = () => {
+      console.log('✅ WebSocket connected');
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        setDetectionResults(data);
+      } catch {
+        console.warn('Invalid detection message:', event.data);
+      }
+    };
+
+    ws.onclose = () => {
+      console.log('🛑 WebSocket closed');
+    };
+
+    socketRef.current = ws;
+
     if (imgRef.current) {
-      // Gán URL mới để ép trình duyệt reload stream
-      imgRef.current.src = "http://localhost:8000/video_feed?" + Date.now();
+      imgRef.current.src = `http://localhost:8000/video-feed?${Date.now()}`;
       setIsCameraOn(true);
     }
   };
 
-  const stopCamera = async () => {
+  const stopCamera = () => {
     if (imgRef.current) {
-      imgRef.current.src = ""; // Tắt stream
-      setIsCameraOn(false);
+      imgRef.current.src = '';
     }
 
-    try {
-      await fetch("http://localhost:8000/release_camera", { method: "POST" });
-    } catch (err) {
-      console.error("Không thể release camera:", err);
+    setIsCameraOn(false);
+    setDetectionResults([]);
+
+    if (socketRef.current) {
+      socketRef.current.send('stop'); // gửi yêu cầu tắt
+      socketRef.current.close(); // đóng luôn websocket
+      socketRef.current = null;
     }
   };
 
+  useEffect(() => {
+    return () => {
+      stopCamera(); // đảm bảo cleanup khi rời component
+    };
+  }, []);
+
   return (
     <div className="text-center p-6">
-      <h1 className="text-2xl font-bold text-green-700 mb-6">
+      <h1 className="text-2xl font-bold text-green-700 mb-4">
         📷 Nhận diện rác thời gian thực
       </h1>
 
-      <div className="mb-4 flex flex-row justify-center gap-4 flex-wrap">
+      <div className="mb-4 flex justify-center gap-2">
         <button
           onClick={startCamera}
           disabled={isCameraOn}
-          className={`px-5 py-2 rounded ${
-            isCameraOn
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-green-500 hover:bg-green-600 text-white"
+          className={`px-4 py-2 rounded ${
+            isCameraOn ? 'bg-gray-400' : 'bg-green-500 hover:bg-green-600 text-white'
           }`}
         >
           Bắt đầu
@@ -46,10 +77,8 @@ const CameraStream: React.FC = () => {
         <button
           onClick={stopCamera}
           disabled={!isCameraOn}
-          className={`px-5 py-2 rounded ${
-            !isCameraOn
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-red-500 hover:bg-red-600 text-white"
+          className={`px-4 py-2 rounded ${
+            !isCameraOn ? 'bg-gray-400' : 'bg-red-500 hover:bg-red-600 text-white'
           }`}
         >
           Kết thúc
@@ -59,27 +88,27 @@ const CameraStream: React.FC = () => {
       <div className="relative flex justify-center">
         <img
           ref={imgRef}
-          alt="Luồng camera AI"
+          alt="AI camera feed"
           width={640}
           height={480}
-          className={`rounded shadow max-w-full border border-green-300 ${isCameraOn ? "" : "hidden"}`}
+          className={`rounded shadow max-w-full border border-green-300 ${
+            isCameraOn ? '' : 'hidden'
+          }`}
         />
-        {!isCameraOn && (
-          <div className="w-[640px] h-[480px] flex items-center justify-center bg-gray-100 rounded border border-green-300">
-            <img
-              src="https://static.vecteezy.com/system/resources/previews/007/225/019/non_2x/camera-off-icon-ui-interface-vector.jpg"
-              alt="Camera Off"
-              className="w-32 h-32 opacity-50"
-            />
-          </div>
-        )}
       </div>
 
-      <p className="text-sm text-gray-500 mt-4">
-        {isCameraOn
-          ? "Luồng camera đang chạy."
-          : "Nhấn 'Bắt đầu' để xem luồng camera."}
-      </p>
+      {isCameraOn && detectionResults.length > 0 && (
+        <div className="mt-4">
+          <h2 className="text-lg font-semibold text-green-700">Kết quả nhận diện:</h2>
+          <ul className="text-sm text-left">
+            {detectionResults.map((res, idx) => (
+              <li key={idx}>
+                {res.label}: {(res.confidence * 100).toFixed(0)}% tại [{res.box.join(', ')}]
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
