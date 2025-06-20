@@ -8,7 +8,7 @@ import BlogLayout from '../components/BlogLayout.tsx';
 import CampaignLayout from '../components/CampaignLayout.tsx';
 import MainLayout from '../components/MainLayout';
 import About from '../pages/ai-demo/about/index.tsx';
-import CameraStream from '../pages/ai-demo/camera/index.tsx';
+import CameraTabs from '../pages/ai-demo/camera/index.tsx';
 import GamePlayPage from '../pages/ai-demo/game/1/GamePlayPage.tsx';
 import Game1 from '../pages/ai-demo/game/1/index.tsx';
 import ImageCanvasViewer from '../pages/ai-demo/game/1/test.tsx';
@@ -92,7 +92,7 @@ const AppRouter = () => {
           <Route path="/ai-demo/games" element={<GameList />} />
           <Route path="/ai-demo/game/1" element={<Game1 />} />
           <Route path="/ai-demo/game/1/:imageId" element={<GamePlayPage />} />
-          <Route path="/ai-demo/camera" element={<CameraStream />} />
+          <Route path="/ai-demo/camera" element={<CameraTabs />} />
           <Route path="/test/:imageId" element={<ImageCanvasViewer />} />
           <Route path="/ai-demo/about" element={<About />} />
           <Route path="/ai-demo/game/2" element={<Game2 />} />
