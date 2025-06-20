@@ -42,7 +42,6 @@ type Blog = {
   blogger: Blogger;
   blog_likes: BlogLike[];
   thumbnail_url?: string;
-  thumbnail_url?: string;
   published_at: string;
 };
 
