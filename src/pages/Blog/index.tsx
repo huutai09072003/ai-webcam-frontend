@@ -45,6 +45,8 @@ const BlogIndexPage: React.FC = () => {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  console.log("Errors: ", error);
+  
 
   const perPage = 6;
 
@@ -86,7 +88,6 @@ const BlogIndexPage: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
-        {/* Left Sidebar - Top Bloggers */}
         <aside className="md:col-span-1">
           <h2 className="text-lg font-semibold mb-3 text-green-700">🌟 Top Blogger</h2>
           <ul className="space-y-3 text-sm text-gray-700">
