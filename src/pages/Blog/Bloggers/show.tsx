@@ -1,15 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
+
+import { DEFAULT_AVATAR } from '../../../assets/defaultAvatar';
 import { useAuth } from '../../../hooks/useAuth';
 import axiosInstance from '../../../utils/axiosInstance';
-import { DEFAULT_AVATAR } from '../../../assets/defaultAvatar';
+
+interface Blog {
+  id: number;
+  title: string;
+  status: string;
+  created_at: string;
+  thumbnail_url?: string;
+}
 
 interface Blogger {
   id: number;
   username: string;
   email: string;
   avatar_url?: string;
+  blogs?: Blog[];
 }
 
 const BloggerShow: React.FC = () => {
@@ -22,8 +39,6 @@ const BloggerShow: React.FC = () => {
   const [blogger, setBlogger] = useState<Blogger | null>(null);
   const [unauthorized, setUnauthorized] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  console.log("user", user);
 
   useEffect(() => {
     const fetchBlogger = async () => {
@@ -79,7 +94,7 @@ const BloggerShow: React.FC = () => {
   }
 
   return (
-    <div className="max-w-xl mx-auto space-y-6 mt-10">
+    <div className="max-w-4xl mx-auto space-y-6 mt-10">
       {message && (
         <div className="p-3 bg-yellow-50 border border-yellow-300 text-yellow-800 rounded">
           {message}
@@ -95,14 +110,17 @@ const BloggerShow: React.FC = () => {
             onError={(e) => (e.currentTarget.src = DEFAULT_AVATAR)}
           />
           <h2 className="text-2xl font-semibold text-green-700">👤 {blogger.username}</h2>
+          <p className="text-gray-700">{blogger.email}</p>
         </div>
-
-        <div className="text-gray-800 space-y-2">
-          <p><span className="font-medium text-gray-600">Email:</span> {blogger.email}</p>
-        </div>
-
         {user?.id === blogger.id && (
-          <div className="text-right pt-4">
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={() => navigate(`/bloggers/${id}/activity`)}
+              className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition"
+            >
+              📘 Xem nhật ký hoạt động
+            </button>
+
             <button
               onClick={() => navigate(`/bloggers/${id}/edit`)}
               className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
@@ -110,6 +128,40 @@ const BloggerShow: React.FC = () => {
               ✏️ Chỉnh sửa thông tin
             </button>
           </div>
+        )}
+      </div>
+
+      {/* Blog list */}
+      <div className="bg-white border rounded-lg shadow-md p-6">
+        <h3 className="text-lg font-semibold mb-4 text-gray-800">
+          📝 Danh sách Blog đã viết ({blogger.blogs?.length || 0})
+        </h3>
+        {blogger.blogs && blogger.blogs.length > 0 ? (
+          <ul className="space-y-3">
+            {blogger.blogs.map((blog) => (
+            <li
+              key={blog.id}
+              onClick={() => navigate(`/blogs/${blog.id}`)}
+              className="flex gap-4 items-start border p-4 rounded-lg hover:shadow-md transition cursor-pointer"
+            >
+              <img
+                src={blog.thumbnail_url || DEFAULT_AVATAR}
+                alt={blog.title}
+                className="w-20 h-20 object-cover rounded border"
+                onError={(e) => (e.currentTarget.src = DEFAULT_AVATAR)}
+              />
+              <div className="flex-1 space-y-1">
+                <div className="flex justify-between items-center">
+                  <h4 className="text-green-800 font-semibold">{blog.title}</h4>
+                  <span className="text-sm text-gray-500 italic">{blog.status}</span>
+                </div>
+                <p className="text-xs text-gray-500">🕒 {new Date(blog.created_at).toLocaleString()}</p>
+              </div>
+            </li>
+          ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-gray-600 italic">Chưa có blog nào được viết.</p>
         )}
       </div>
     </div>

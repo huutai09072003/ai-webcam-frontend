@@ -41,6 +41,13 @@ export interface Donation {
   created_at: string;
 }
 
+interface ContactPayload {
+  to: 'founder' | 'admin';
+  from_name: string;
+  from_email: string;
+  message: string;
+}
+
 const CampaignShowPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
@@ -51,9 +58,19 @@ const CampaignShowPage: React.FC = () => {
   const [thankYouMessage, setThankYouMessage] = useState('');
   const [verifyingDonation, setVerifyingDonation] = useState(false);
 
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [contactForm, setContactForm] = useState<ContactPayload>({
+    to: 'founder',
+    from_name: '',
+    from_email: '',
+    message: '',
+  });
+  const [contactSending, setContactSending] = useState(false);
+  const [contactStatus, setContactStatus] = useState<string | null>(null);
+
   const navigate = useNavigate();
 
-  useEffect(() => {    
+  useEffect(() => {
     if (!id) {
       setError('Không tìm thấy chiến dịch.');
       setLoading(false);
@@ -92,6 +109,33 @@ const CampaignShowPage: React.FC = () => {
     }
   }, [searchParams, id]);
 
+  const handleSendContact = async () => {
+    if (!campaign) return;
+
+    setContactSending(true);
+    setContactStatus(null);
+
+    try {
+      const endpoint =
+        contactForm.to === 'founder'
+          ? `${API_BASE_URL}/campaigns/${campaign.id}/contact_founder`
+          : `${API_BASE_URL}/campaigns/${campaign.id}/contact_to_admin`;
+
+      await axios.post(endpoint, {
+        from_name: contactForm.from_name,
+        from_email: contactForm.from_email,
+        message: contactForm.message,
+      });
+
+      setContactStatus('✅ Tin nhắn đã được gửi thành công!');
+      setContactForm({ ...contactForm, message: '' });
+    } catch {
+      setContactStatus('❌ Gửi tin nhắn thất bại. Vui lòng thử lại.');
+    } finally {
+      setContactSending(false);
+    }
+  };
+
   if (loading) return <div className="text-gray-600">Đang tải chiến dịch...</div>;
   if (error || !campaign) return <div className="text-red-500">{error || 'Lỗi không xác định.'}</div>;
 
@@ -104,6 +148,12 @@ const CampaignShowPage: React.FC = () => {
         {campaign.founder.wallet_address && (
           <p><strong>💼</strong> {campaign.founder.wallet_address}</p>
         )}
+        <button
+          onClick={() => setShowContactModal(true)}
+          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 mt-4 text-sm font-medium"
+        >
+          📩 Gửi tin nhắn
+        </button>
       </div>
 
       <div className="col-span-5 border-l border-r border-gray-200 px-6">
@@ -125,7 +175,6 @@ const CampaignShowPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Sidebar right - Donate & supporters */}
       <div className="col-span-1 pl-4 text-sm">
         {campaign.is_get_donated && campaign.founder.stripe_connected ? (
           <button
@@ -165,6 +214,78 @@ const CampaignShowPage: React.FC = () => {
           </>
         )}
       </div>
+
+      {showContactModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h2 className="text-lg font-semibold mb-4 text-green-700">Gửi tin nhắn</h2>
+
+            <label className="block mb-2 text-sm font-medium">
+              Bạn cần liên lạc với?
+              <select
+                className="block w-full mt-1 border rounded p-2"
+                value={contactForm.to}
+                onChange={(e) =>
+                  setContactForm({ ...contactForm, to: e.target.value as 'founder' | 'admin' })
+                }
+              >
+                <option value="founder">Người sáng lập chiến dịch</option>
+                <option value="admin">Quản trị viên của trang web</option>
+              </select>
+            </label>
+
+            <label className="block mb-2 text-sm font-medium">
+              Họ tên của bạn:
+              <input
+                type="text"
+                className="block w-full mt-1 border rounded p-2"
+                value={contactForm.from_name}
+                onChange={(e) => setContactForm({ ...contactForm, from_name: e.target.value })}
+              />
+            </label>
+
+            <label className="block mb-2 text-sm font-medium">
+              Email của bạn:
+              <input
+                type="email"
+                className="block w-full mt-1 border rounded p-2"
+                value={contactForm.from_email}
+                onChange={(e) => setContactForm({ ...contactForm, from_email: e.target.value })}
+              />
+            </label>
+
+            <label className="block mb-2 text-sm font-medium">
+              Nội dung:
+              <textarea
+                rows={4}
+                className="block w-full mt-1 border rounded p-2"
+                value={contactForm.message}
+                onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+              />
+            </label>
+
+            {contactStatus && (
+              <p className="text-sm mt-2 text-center font-medium text-green-600">{contactStatus}</p>
+            )}
+
+            <div className="flex justify-between mt-4">
+              <button
+                className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
+                onClick={() => setShowContactModal(false)}
+              >
+                Đóng
+              </button>
+              <button
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+                onClick={handleSendContact}
+                disabled={contactSending}
+              >
+                {contactSending ? 'Đang gửi...' : 'Gửi tin nhắn'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

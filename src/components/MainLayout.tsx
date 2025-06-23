@@ -7,6 +7,7 @@ import {
 
 import Footer from './Footer';
 import Header from './Header';
+import ScrollToTopButton from './ScollToTopButton';
 
 const MainLayout = () => {
   const location = useLocation();
@@ -23,6 +24,7 @@ const MainLayout = () => {
       <main className="flex-grow container mx-auto px-4 py-6">
         <Outlet />
       </main>
+      <ScrollToTopButton />
       <Footer />
     </div>
   );

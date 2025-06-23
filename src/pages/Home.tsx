@@ -22,7 +22,7 @@ const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
 
 interface Blogger {
   id: number;
-  name: string;
+  username: string;
   avatar_url: string;
 }
 
@@ -176,7 +176,7 @@ const Home: React.FC = () => {
                     <Link to={`/blogs/${blog.id}`} className="text-green-700 font-semibold block mb-2 hover:underline">
                       {blog.title}
                     </Link>
-                    <p className="text-xs text-gray-600">Tác giả: {blog.blogger?.name}</p>
+                    <p className="text-xs text-gray-600">Tác giả: {blog.blogger?.username}</p>
                   </div>
                 </motion.div>
               ))}

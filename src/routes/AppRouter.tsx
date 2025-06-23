@@ -16,11 +16,13 @@ import CoreGame from '../pages/ai-demo/game/2/coreGame.tsx';
 import Game2 from '../pages/ai-demo/game/2/index.tsx';
 import GameList from '../pages/ai-demo/game/index.tsx';
 import AIDemoIndex from '../pages/ai-demo/index.tsx';
+import BloggerActivity from '../pages/Blog/Bloggers/activity.tsx';
 import BloggerEdit from '../pages/Blog/Bloggers/edit.tsx';
 import BloggerIndex from '../pages/Blog/Bloggers/index.tsx';
 import BloggerShow from '../pages/Blog/Bloggers/show.tsx';
 import BlogLoginPage from '../pages/Blog/blogLogin.tsx';
 import BlogSignupPage from '../pages/Blog/blogRegister.tsx';
+import BlogEditModal from '../pages/Blog/edit.tsx';
 import BlogIndexPage from '../pages/Blog/index.tsx';
 import BlogNewPage from '../pages/Blog/new.tsx';
 import BlogShowPage from '../pages/Blog/show.tsx';
@@ -83,10 +85,12 @@ const AppRouter = () => {
             <Route path="new" element={<BlogNewPage />} />
             <Route path="login" element={<BlogLoginPage />} />
             <Route path="signup" element={<BlogSignupPage />} />
+            <Route path=":id/edit" element={<BlogEditModal />} />
           </Route>
           <Route path="/bloggers" element={<BloggerIndex />} />
           <Route path="/bloggers/:id" element={<BloggerShow />} />
           <Route path="/bloggers/:id/edit" element={<BloggerEdit />} />
+          <Route path="/bloggers/:id/activity" element={<BloggerActivity />} />
 
           <Route path="/ai-demo" element={<AIDemoIndex />} />
           <Route path="/ai-demo/games" element={<GameList />} />

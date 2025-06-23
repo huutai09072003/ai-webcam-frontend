@@ -24,12 +24,15 @@ const authSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<User>) {
       state.user = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload)); // ✅ lưu lại user
     },
     logout(state) {
       state.user = null;
+      localStorage.removeItem("user"); // ✅ xóa user khi logout
     },
   },
 });
+
 
 export const { setUser, logout } = authSlice.actions;
 export default authSlice.reducer;
